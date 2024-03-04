@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Tilemap.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: d23cfb78cc0f6664685706262d2aca4f
+  - enabled: 1
+    path: Assets/Scenes/Grass_LVL.unity
     guid: db49b6231752bd54a8f25b3625d383a4
   m_configObjects: {}
