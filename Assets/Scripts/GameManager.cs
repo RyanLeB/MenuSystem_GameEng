@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public UIManager _uiManager;
     public LevelManager _levelManager;
-    
+
+    public GameObject player;
+
+
     public enum GameState { MainMenu, Gameplay, Paused, Options, GameWin, GameOver }
     public GameState gameState;
 
@@ -16,6 +19,8 @@ public class GameManager : MonoBehaviour
         
         Cursor.visible = true;
         gameState = GameState.MainMenu;
+
+        player.SetActive(false);
 
         _levelManager = FindObjectOfType<LevelManager>();
         _uiManager = FindObjectOfType<UIManager>();
