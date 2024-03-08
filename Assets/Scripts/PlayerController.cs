@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
     Vector2 movement;
 
+    
 
     void Awake()
     {
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
+
         movement.x = Input.GetAxis("Horizontal");
         movement.y = Input.GetAxis("Vertical");
 
@@ -35,7 +38,12 @@ public class PlayerController : MonoBehaviour
 
     public void HandleMove()
     {
-        rb.velocity = new Vector2(movement.x * moveSpeed, movement.y * moveSpeed);
+        // Normalize the movement vector
+        Vector2 normalizedMovement = movement.normalized;
+
+        
+        rb.velocity = normalizedMovement * moveSpeed;
+        
     }
 
     public void HandleAnim()

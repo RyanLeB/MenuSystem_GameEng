@@ -29,6 +29,20 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        
+        // Pause game 
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            if (gameState == GameState.Gameplay) 
+            {
+                Paused();
+            }
+            else
+            {
+                ResumeGame();
+            }
+        }
+        
         switch (gameState)
         {
             case GameState.MainMenu: MainMenu(); 
@@ -43,36 +57,88 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver: GameOver();
                 break;
+
+        }
+
+        
+
+
+    }
+
+    public void SetGameStateFromScene(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "MainMenu":
+                gameState = GameState.MainMenu;
+                break;
+            case "Grass_LVL":
+                gameState = GameState.Gameplay;
+                break;
+            case "Grass_LVL2":
+                gameState = GameState.Gameplay;
+                break;
+            
+            
+
+            default:
+                Debug.LogWarning("SetGameStateFromScene: Unknown scene name - " + sceneName);
+                break;
         }
     }
 
     private void MainMenu()
     {
         _uiManager.UIMainMenu();
+        player.SetActive(false);
     }
 
     private void Gameplay()
     {
         _uiManager.UIGameplay();
+        Cursor.visible = false;
+        player.SetActive(true);
+        
+        
     }
 
     private void Paused()
     {
         _uiManager.UIpause();
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Gameplay();
+        }
+    }
+
+    private void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        gameState = GameState.Gameplay;
     }
 
     private void Options()
     {
+        gameState = GameState.Options;
         _uiManager.UIoptions();
+
     }
 
     private void GameWin()
     {
+        gameState = GameState.GameWin;
         _uiManager.UIGameWin();
+        Cursor.visible = true;
+        
     }
     private void GameOver()
     {
+        gameState = GameState.GameOver;
         _uiManager.UIGameOver();
+        Cursor.visible = true;
     }
 
 }
