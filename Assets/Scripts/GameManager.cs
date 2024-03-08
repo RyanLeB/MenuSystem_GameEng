@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     public LevelManager _levelManager;
 
     public GameObject player;
+    public GameObject mainMenu;
+    public GameObject pauseMenu;
+    public GameObject optionsMenu;
+    public GameObject winScreen;
+    public GameObject loseScreen;
 
 
     public enum GameState { MainMenu, Gameplay, Paused, Options, GameWin, GameOver }
@@ -21,6 +26,10 @@ public class GameManager : MonoBehaviour
         gameState = GameState.MainMenu;
 
         player.SetActive(false);
+        pauseMenu.SetActive(false);
+        optionsMenu.SetActive(false);
+        winScreen.SetActive(false);
+        loseScreen.SetActive(false);
 
         _levelManager = FindObjectOfType<LevelManager>();
         _uiManager = FindObjectOfType<UIManager>();
@@ -31,18 +40,21 @@ public class GameManager : MonoBehaviour
     {
         
         // Pause game 
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (gameState == GameState.Gameplay) 
             {
+                gameState = GameState.Paused;
                 Paused();
             }
-            else
+            else if(gameState == GameState.Paused)
             {
                 ResumeGame();
             }
         }
+
         
+
         switch (gameState)
         {
             case GameState.MainMenu: MainMenu(); 
@@ -65,36 +77,22 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void SetGameStateFromScene(string sceneName)
-    {
-        switch (sceneName)
-        {
-            case "MainMenu":
-                gameState = GameState.MainMenu;
-                break;
-            case "Grass_LVL":
-                gameState = GameState.Gameplay;
-                break;
-            case "Grass_LVL2":
-                gameState = GameState.Gameplay;
-                break;
-            
-            
+   
 
-            default:
-                Debug.LogWarning("SetGameStateFromScene: Unknown scene name - " + sceneName);
-                break;
-        }
-    }
-
-    private void MainMenu()
+    public void MainMenu()
     {
+        gameState = GameState.MainMenu;
         _uiManager.UIMainMenu();
+        pauseMenu.SetActive(false);
+        mainMenu.SetActive(true);
         player.SetActive(false);
+        
+
     }
 
-    private void Gameplay()
+    public void Gameplay()
     {
+        Time.timeScale = 1f;
         _uiManager.UIGameplay();
         Cursor.visible = false;
         player.SetActive(true);
@@ -102,9 +100,13 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void Paused()
+    public void Paused()
     {
+        gameState = GameState.Paused;
         _uiManager.UIpause();
+        pauseMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+
         Time.timeScale = 0f;
         Cursor.visible = true;
 
@@ -114,31 +116,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ResumeGame()
+    public void ResumeGame()
     {
         Time.timeScale = 1f;
+        pauseMenu.SetActive(false);
+        optionsMenu.SetActive(false);
         gameState = GameState.Gameplay;
     }
 
-    private void Options()
+    public void Options()
     {
         gameState = GameState.Options;
+        optionsMenu.SetActive(true);
         _uiManager.UIoptions();
 
     }
 
-    private void GameWin()
+    public void GameWin()
     {
+        Time.timeScale = 0f;
         gameState = GameState.GameWin;
         _uiManager.UIGameWin();
+        winScreen.SetActive(true);
         Cursor.visible = true;
         
     }
-    private void GameOver()
+    public void GameOver()
     {
+        Time.timeScale = 0f;
         gameState = GameState.GameOver;
         _uiManager.UIGameOver();
         Cursor.visible = true;
+        loseScreen.SetActive(true);
     }
 
 }

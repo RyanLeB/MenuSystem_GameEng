@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Grass_LVL.unity
     guid: db49b6231752bd54a8f25b3625d383a4
+  - enabled: 1
+    path: Assets/Scenes/Grass_LVL2.unity
+    guid: fe27663f10ca28f42865a19735c9ea43
+  - enabled: 1
+    path: Assets/Scenes/WinningScene.unity
+    guid: b512744929cc55646b5303010d1778fa
   m_configObjects: {}
